@@ -1,41 +1,88 @@
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.junit.Assert.*;
+
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("assets/adventday1.txt");
+        File file = new File("assets/test2.txt");
         Scanner scan = new Scanner(file);
+        LinkedHashMap<String, Integer> stringNumbers = new LinkedHashMap<>();
+        stringNumbers.put("one", 1);
+        stringNumbers.put("two", 2);
+        stringNumbers.put("three", 3);
+        stringNumbers.put("four", 4);
+        stringNumbers.put("five", 5);
+        stringNumbers.put("six", 6);
+        stringNumbers.put("seven", 7);
+        stringNumbers.put("eight", 8);
+        stringNumbers.put("nine", 9);
 
         int finalSum = 0;
-        int count = 0;
 
         while(scan.hasNextLine()) {
-            String firstInt = "";
-            String lastInt = "";
             String concatNumber = "";
             String currentLineString = scan.nextLine();
-            char[] currentLineArray = currentLineString.toCharArray();
-            if(currentLineString.matches(".*\\d.*")) {
-                for(char character: currentLineArray) {
-                    if(Character.isDigit(character)) {
-                        concatNumber += Character.toString(character);
-                        break;
-                    }
-                }
-                for(int i = currentLineArray.length - 1; i >= 0; i--) {
-                    if(Character.isDigit(currentLineArray[i])) {
-                        concatNumber += Character.toString(currentLineArray[i]);
-                        break;
-                    }
-                }
-            }
+            currentLineString = FormatString(currentLineString, stringNumbers);
+            concatNumber += String.valueOf(currentLineString.charAt(0));
+            concatNumber += String.valueOf(currentLineString.charAt(currentLineString.length() - 1));
 
+            System.out.println(concatNumber);
             if (!concatNumber.isEmpty()) {
                 finalSum += Integer.parseInt(concatNumber);
             }
-            System.out.println(finalSum);
         }
 
         System.out.println("Final Sum: " + finalSum);
+    }
+
+    public static String FormatString(String currentLine, LinkedHashMap<String, Integer> stringNumbers) {
+        Matcher match = Pattern.compile("[0-9]+|[a-z]+|[A-Z]+").matcher(currentLine.toLowerCase());
+        StringBuilder finalLine = new StringBuilder();
+        while(match.find()) {
+            String currentMatch = match.group();
+            if(currentMatch.matches("[0-9]+")) {
+                finalLine.append(match.group());
+            }
+            else if(currentMatch.matches("[a-z]+|[A-Z]+")) {
+                for(Map.Entry<String, Integer> entry : stringNumbers.entrySet()) {
+                    String key = entry.getKey();
+                    Integer value = entry.getValue();
+                    if(currentMatch.toLowerCase().contains(key)) {
+                        finalLine.append(value);
+                    }
+                }
+            }
+        }
+        return finalLine.toString();
+    }
+
+    //Tests
+    @Test
+    public void testFormatString() throws IOException {
+        String expect = "83";
+        String actual = "";
+        String testLine = "eightwothree";
+
+        LinkedHashMap<String, Integer> stringNumbers = new LinkedHashMap<>();
+        stringNumbers.put("one", 1);
+        stringNumbers.put("two", 2);
+        stringNumbers.put("three", 3);
+        stringNumbers.put("four", 4);
+        stringNumbers.put("five", 5);
+        stringNumbers.put("six", 6);
+        stringNumbers.put("seven", 7);
+        stringNumbers.put("eight", 8);
+        stringNumbers.put("nine", 9);
+
+        actual = FormatString(testLine, stringNumbers);
+        assertEquals(expect, actual);
     }
 }
