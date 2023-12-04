@@ -22,7 +22,7 @@ public class Main {
                         break;
                     }
                 }
-                for(int i = currentLineArray.length - 1; i > 0; i--) {
+                for(int i = currentLineArray.length - 1; i >= 0; i--) {
                     if(Character.isDigit(currentLineArray[i])) {
                         concatNumber += Character.toString(currentLineArray[i]);
                         break;
