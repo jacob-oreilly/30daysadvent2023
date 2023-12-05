@@ -44,14 +44,15 @@ public class Main {
     }
 
     public static String FormatString(String currentLine, LinkedHashMap<String, Integer> stringNumbers) {
-        Matcher match = Pattern.compile("[0-9]+|[a-z]+|[A-Z]+").matcher(currentLine.toLowerCase());
+        String regexString = "[0-9]+|one|two|three|four|five|six|seven|eight|nine";
+        Matcher match = Pattern.compile(regexString).matcher(currentLine.toLowerCase());
         StringBuilder finalLine = new StringBuilder();
         while(match.find()) {
             String currentMatch = match.group();
             if(currentMatch.matches("[0-9]+")) {
                 finalLine.append(match.group());
             }
-            else if(currentMatch.matches("[a-z]+|[A-Z]+")) {
+            else {
                 for(Map.Entry<String, Integer> entry : stringNumbers.entrySet()) {
                     String key = entry.getKey();
                     Integer value = entry.getValue();
