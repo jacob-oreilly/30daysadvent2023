@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("assets/test2.txt");
+        File file = new File("assets/adventday1.txt");
         Scanner scan = new Scanner(file);
         LinkedHashMap<String, Integer> stringNumbers = new LinkedHashMap<>();
         stringNumbers.put("one", 1);
@@ -53,13 +53,7 @@ public class Main {
                 finalLine.append(match.group());
             }
             else {
-                for(Map.Entry<String, Integer> entry : stringNumbers.entrySet()) {
-                    String key = entry.getKey();
-                    Integer value = entry.getValue();
-                    if(currentMatch.toLowerCase().contains(key)) {
-                        finalLine.append(value);
-                    }
-                }
+                finalLine.append(stringNumbers.get(match.group()));
             }
         }
         return finalLine.toString();
