@@ -10,21 +10,28 @@ import java.util.regex.Pattern;
 import static org.junit.Assert.assertEquals;
 
 public class Main {
-    final int blueCubeCount = 14;
-    final int redCubeCount = 12;
-    final int greenCubeCount = 13;
+    final static int blueCubeCount = 14;
+    final static int redCubeCount = 12;
+    final static int greenCubeCount = 13;
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("assets/test.txt");
+        File file = new File("assets/adventinput.txt");
         Scanner scan = new Scanner(file);
         int gameCount = 0;
+        int gameSum = 0;
 
         while(scan.hasNextLine()) {
-            System.out.println(scan.nextLine());
+            //System.out.println(scan.nextLine());
             gameCount++;
+            if(IsGamePossible(scan.nextLine())) {
+                gameSum += gameCount;
+            }
+
+
         }
+        System.out.println(gameSum);
     }
 
-    private Boolean IsGamePossible(String currentGame) {
+    private static Boolean IsGamePossible(String currentGame) {
         Boolean isPossible = true;
         String regexString = "(?>(\\d). blue)|(?>(\\d). red)|(?>(\\d). green)";
         Matcher match = Pattern.compile(regexString).matcher(currentGame.toLowerCase());
