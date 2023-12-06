@@ -44,16 +44,16 @@ public class Main {
     }
 
     public static String FormatString(String currentLine, LinkedHashMap<String, Integer> stringNumbers) {
-        String regexString = "[0-9]+|one|two|three|four|five|six|seven|eight|nine";
+        String regexString = "[1-9]|(?=(one|two|three|four|five|six|seven|eight|nine))";
         Matcher match = Pattern.compile(regexString).matcher(currentLine.toLowerCase());
         StringBuilder finalLine = new StringBuilder();
         while(match.find()) {
             String currentMatch = match.group();
-            if(currentMatch.matches("[0-9]+")) {
+            if(currentMatch.matches("[1-9]+")) {
                 finalLine.append(match.group());
             }
             else {
-                finalLine.append(stringNumbers.get(match.group()));
+                finalLine.append(stringNumbers.get(match.group(1)));
             }
         }
         return finalLine.toString();
@@ -62,9 +62,9 @@ public class Main {
     //Tests
     @Test
     public void testFormatString() throws IOException {
-        String expect = "83";
+        String expect = "2134";
         String actual = "";
-        String testLine = "eightwothree";
+        String testLine = "xtwone3four";
 
         LinkedHashMap<String, Integer> stringNumbers = new LinkedHashMap<>();
         stringNumbers.put("one", 1);
