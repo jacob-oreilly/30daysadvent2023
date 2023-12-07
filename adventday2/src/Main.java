@@ -20,9 +20,9 @@ public class Main {
         int gameSum = 0;
 
         while(scan.hasNextLine()) {
-            //System.out.println(scan.nextLine());
             gameCount++;
-            if(IsGamePossible(scan.nextLine())) {
+            Matcher match = GetCurrentGameMatch(scan.nextLine());
+            if(IsGamePossible(match)) {
                 gameSum += gameCount;
             }
 
@@ -31,10 +31,8 @@ public class Main {
         System.out.println(gameSum);
     }
 
-    private static Boolean IsGamePossible(String currentGame) {
+    private static Boolean IsGamePossible(Matcher match) {
         Boolean isPossible = true;
-        String regexString = "(?>(\\d). blue)|(?>(\\d). red)|(?>(\\d). green)";
-        Matcher match = Pattern.compile(regexString).matcher(currentGame.toLowerCase());
         while(match.find()) {
             String[] group = match.group().split(" ");
             switch (group[1]) {
@@ -56,9 +54,14 @@ public class Main {
         return isPossible;
     }
 
-    private static int MinPowerPossibleCubes() {
+    private static int MinPowerPossibleCubes(Matcher match) {
         int minPower = 0;
         return minPower;
+    }
+
+    private static Matcher GetCurrentGameMatch(String currentGame) {
+        String regexString = "(?>(\\d). blue)|(?>(\\d). red)|(?>(\\d). green)";
+        return Pattern.compile(regexString).matcher(currentGame.toLowerCase());
     }
 
 
@@ -67,7 +70,8 @@ public class Main {
         Boolean expected = true;
         Boolean actual;
         String currentGame = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green";
-        actual = IsGamePossible(currentGame);
+        Matcher match = GetCurrentGameMatch(currentGame);
+        actual = IsGamePossible(match);
         assertEquals(expected, actual);
     }
 
@@ -76,7 +80,8 @@ public class Main {
         Boolean expected = false;
         Boolean actual;
         String currentGame = "Game 1: 3 blue, 20 red; 1 red, 2 green, 6 blue; 2 green";
-        actual = IsGamePossible(currentGame);
+        Matcher match = GetCurrentGameMatch(currentGame);
+        actual = IsGamePossible(match);
         assertEquals(expected, actual);
     }
 
@@ -85,7 +90,8 @@ public class Main {
         int expected = 0;
         int actual = 0;
         String currentGame = "Game 1: 3 blue, 20 red; 1 red, 2 green, 6 blue; 2 green";
-        actual = MinPowerPossibleCubes();
+        Matcher match = GetCurrentGameMatch(currentGame);
+        actual = MinPowerPossibleCubes(match);
         assertEquals(expected, actual);
     }
 
