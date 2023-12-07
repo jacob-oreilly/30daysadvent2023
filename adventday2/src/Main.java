@@ -56,6 +56,12 @@ public class Main {
         return isPossible;
     }
 
+    private static int MinPowerPossibleCubes() {
+        int minPower = 0;
+        return minPower;
+    }
+
+
     @Test
     public void testIsGamePossibleTrue() throws IOException {
         Boolean expected = true;
@@ -73,5 +79,15 @@ public class Main {
         actual = IsGamePossible(currentGame);
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testMinPowerPossibleCubes() throws IOException {
+        int expected = 0;
+        int actual = 0;
+        String currentGame = "Game 1: 3 blue, 20 red; 1 red, 2 green, 6 blue; 2 green";
+        actual = MinPowerPossibleCubes();
+        assertEquals(expected, actual);
+    }
+
 
 }
